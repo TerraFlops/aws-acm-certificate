@@ -10,6 +10,9 @@ variable "domain_name" {
 
 variable "subject_alternative_names" {
   description = "Optional alternate subject names to be added to the certificate"
-  type = set(string)
+  type = set(object({
+    name = string
+    zone = string
+  }))
   default = []
 }
