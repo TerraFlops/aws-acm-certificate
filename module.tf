@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    aws = ">= 0.13.0"
+  }
+}
+
 locals {
   all_domains = concat([var.domain_name], [
    for san in var.subject_alternative_names : san.name
