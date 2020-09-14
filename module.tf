@@ -1,22 +1,20 @@
 locals {
-  all_domains = concat([
-    var.domain_name], [
-  for san in var.subject_alternative_names : san.name
+  all_domains = concat([var.domain_name], [
+   for san in var.subject_alternative_names : san.name
   ])
 
-  all_zones = concat([
-    var.hosted_zone_id], [
-  for san in var.subject_alternative_names : san.zone
+  all_zones = concat([var.hosted_zone_id], [
+    for san in var.subject_alternative_names : san.zone
   ])
 
   domain_to_zone_map = zipmap(local.all_domains, local.all_zones)
 
   cert_san = reverse(sort([
-  for san in var.subject_alternative_names : san.name
+    for san in var.subject_alternative_names : san.name
   ]))
 
   cert_validation_domains = [
-  for dvo in aws_acm_certificate.acm_certificate.domain_validation_options : tomap(dvo)
+    for dvo in aws_acm_certificate.acm_certificate.domain_validation_options : tomap(dvo)
   ]
 }
 resource "aws_acm_certificate" "acm_certificate" {
