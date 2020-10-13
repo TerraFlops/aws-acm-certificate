@@ -13,9 +13,9 @@ resource "aws_acm_certificate" "acm_certificate" {
 resource "aws_route53_record" "acm_certificate_validation_record" {
   for_each = {
     for domain_validation_option in aws_acm_certificate.acm_certificate.domain_validation_options: domain_validation_option.domain_name => {
-      name   = domain_validation_option.resource_record_name
+      name = domain_validation_option.resource_record_name
       record = domain_validation_option.resource_record_value
-      type   = domain_validation_option.resource_record_type
+      type = domain_validation_option.resource_record_type
     }
   }
   zone_id = var.hosted_zone_id

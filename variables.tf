@@ -1,15 +1,15 @@
 variable "hosted_zone_id" {
-  description = "Hosted zone ID in which the certificate validation record will be created"
+  description = "HostedZone where ACM Validation records are to be created."
   type = string
 }
 
 variable "domain_name" {
-  description = "Certificate domain name"
+  description = "The domain name for which the certificate should be issued."
   type = string
 }
 
 variable "subject_alternative_names" {
-  description = "Optional alternate subject names to be added to the certificate"
+  description = "Set of domains that should be SANs in the issued certificate. To remove all elements of a previously configured list, set this value equal to an empty list ([]) or use the terraform taint command to trigger recreation."
   type = set(string)
   default = []
 }
