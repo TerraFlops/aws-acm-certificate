@@ -6,21 +6,19 @@ terraform {
 
 locals {
   all_domain_names = concat(
-  [
-    var.domain_name],
-  [for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["name"]]
+    [var.domain_name],
+    [for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["name"]]
   )
 
   all_hosted_zone_ids = concat(
-  [
-    var.hosted_zone_id],
-  [for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["hosted_zone_id"]]
+    [var.hosted_zone_id],
+    [for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["hosted_zone_id"]]
   )
 
   lookup_hosted_zone_id = zipmap(local.all_domain_names, local.all_hosted_zone_ids)
 
   certificate_subject_alternative_names = reverse(sort([
-  for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["name"]
+    for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["name"]
   ]))
 }
 
@@ -38,8 +36,7 @@ resource "aws_route53_record" "acm_certificate_validation_record" {
   name = element(aws_acm_certificate.acm_certificate.domain_validation_options.*.resource_record_name, count.index)
   type = element(aws_acm_certificate.acm_certificate.domain_validation_options.*.resource_record_type, count.index)
   records = [
-    element(aws_acm_certificate.acm_certificate.domain_validation_options.*.resource_record_value, count.index)
-  ]
+    element(aws_acm_certificate.acm_certificate.domain_validation_options.*.resource_record_value, count.index)]
 }
 
 resource "aws_acm_certificate_validation" "acm_certificate_validation" {
