@@ -17,7 +17,7 @@ locals {
 
   lookup_hosted_zone_id = zipmap(local.all_domain_names, local.all_hosted_zone_ids)
 
-  certificate_subject_alternative_names = reverse(sort([
+  certificate_subject_alternative_names = toset(sort([
     for subject_alternative_name in var.subject_alternative_names : subject_alternative_name["name"]
   ]))
 }
