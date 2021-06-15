@@ -10,7 +10,7 @@ variable "domain_name" {
 
 variable "subject_alternative_names" {
   description = "Optional list of alternate subject names and their Hosted Zone IDs to be added to the certificate"
-  type = set(object({
+  type = list(object({
     name = string
     hosted_zone_id = string
   }))
