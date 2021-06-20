@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    aws = ">= 0.13.0"
-  }
-}
-
 locals {
   all_domain_names = concat(
     [var.domain_name],
