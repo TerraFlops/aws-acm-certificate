@@ -18,6 +18,7 @@ resource "aws_acm_certificate" "acm_certificate" {
   validation_method = "DNS"
   subject_alternative_names = local.certificate_subject_alternative_names
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [
       subject_alternative_names
     ]
@@ -42,4 +43,7 @@ resource "aws_acm_certificate_validation" "acm_certificate_validation" {
   ]
   certificate_arn = join("", aws_acm_certificate.acm_certificate.*.arn)
   validation_record_fqdns = aws_route53_record.acm_certificate_validation_record.*.fqdn
+  lifecycle {
+    create_before_destroy = true
+  }
 }
